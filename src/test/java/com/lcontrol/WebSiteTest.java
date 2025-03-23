@@ -38,7 +38,6 @@ public class WebSiteTest {
         options.addArguments("--headless=new"); // Headless mode
         options.addArguments("--no-sandbox");   // Linux CI
         options.addArguments("--disable-dev-shm-usage"); // Prevent memory issues in CI
-        options.addArguments("--window-size=1920,1080"); // maximized
         driver = new ChromeDriver(options);
 
         File dir = new File(SCREENSHOT_DIR);
