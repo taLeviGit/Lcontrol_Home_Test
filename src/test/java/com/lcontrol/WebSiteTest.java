@@ -102,6 +102,7 @@ public class WebSiteTest {
         Files.copy(srcFile.toPath(), destPath, StandardCopyOption.REPLACE_EXISTING);
         System.out.println("Screenshot saved: " + destPath);
         return screenshot.getScreenshotAs(OutputType.BYTES);
+
     }
 
     @AfterEach
