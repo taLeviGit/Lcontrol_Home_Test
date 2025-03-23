@@ -1,11 +1,7 @@
 name: Combined Web and API Tests
-
 # Trigger the workflow on every push to the main branch
-on:
-  push:
-    branches:
-      - main
 
+on: [push, workflow_dispatch]
 jobs:
   test:
     runs-on: ubuntu-latest
@@ -41,7 +37,7 @@ jobs:
         with:
           name: web-allure-report
           path: target/allure-results
-        if: always()  # Upload even if tests fail
+          if: always()  # Upload even if tests fail
 
       # Setup Python for API Tests
       - name: Set up Python 3.9
