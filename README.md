@@ -102,4 +102,6 @@ Assess the ability to write functional and end-to-end automation tests for a web
      4. mvn allure:serve
      ```
     - Run in CI/CD:
+    ```
     
+    ```
