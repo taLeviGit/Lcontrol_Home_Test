@@ -101,7 +101,32 @@ Assess the ability to write functional and end-to-end automation tests for a web
      3. mvn allure:report
      4. mvn allure:serve
      ```
-    - Run in CI/CD:
-    ```
-    
-    ```
+    - Run in Github CI/CD:
+    1. Go to Site : https://github.com/taLeviGit/Lcontrol_Home_Test/actions
+    2. Press on Website Test
+    3. Press on "Run WorkFlow"
+    4. In the new Opened Window Press on "Run WorkFlow"
+
+# Step 3: Backend Test Development
+
+### Purpose
+Assess the ability to write and execute backend automation tests.
+
+### Tools Used
+- **Python**: Pytest and Requests for API testing.
+- **pytest-html**: For generating test reports.
+
+### Setup Instructions
+1. **Navigate to API Tests Directory**:
+   ```bash
+   cd api_tests     
+   ```
+2. Run Tests:
+ - Run in IDE Terminal:
+   pytest test_api.py -v --html=report.html --self-contained-html
+ - Run in Github CI/CD:
+     1. Go to Site : https://github.com/taLeviGit/Lcontrol_Home_Test/actions
+     2. Press on Website Test
+     3. Press on "Run WorkFlow"
+     4. In the new Opened Window Press on "Run WorkFlow"
+
