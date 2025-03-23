@@ -1,10 +1,18 @@
 name: Combined Web and API Tests
-on: [push, workflow_dispatch]
+
+# Trigger the workflow on every push to the main branch
+on:
+  push:
+    branches:
+      - main
+
 jobs:
   test:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      # Checkout the repository code
+      - name: Checkout Code
+        uses: actions/checkout@v3
 
       # Setup Java for Web Tests
       - name: Set up JDK 11
@@ -12,35 +20,52 @@ jobs:
         with:
           java-version: '11'
           distribution: 'temurin'
+
+      # Install Chrome for Selenium
       - name: Install Chrome
         run: |
           sudo apt-get update
           sudo apt-get install -y google-chrome-stable
+
+      # Run Web Tests (Java)
       - name: Run Web Tests
         run: mvn clean test
+        continue-on-error: false  # Fail the pipeline if tests fail
+
+      # Generate and Upload Web Test Report
       - name: Generate Web Allure Report
         run: mvn allure:report
+        if: always()  # Run even if tests fail for debugging
       - name: Upload Web Allure Results
         uses: actions/upload-artifact@v4
         with:
           name: web-allure-report
           path: target/allure-results
+        if: always()  # Upload even if tests fail
 
       # Setup Python for API Tests
       - name: Set up Python 3.9
         uses: actions/setup-python@v5
         with:
           python-version: '3.9'
+
+      # Install API Test Dependencies
       - name: Install API Test Dependencies
         run: |
           cd api_tests
           pip install -r requirements.txt
+
+      # Run API Tests (Python)
       - name: Run API Tests
         run: |
           cd api_tests
           pytest test_api.py -v --html=report.html --self-contained-html
+        continue-on-error: false  # Fail the pipeline if tests fail
+
+      # Upload API Test Report
       - name: Upload API Test Report
         uses: actions/upload-artifact@v4
         with:
           name: api-test-report
           path: api_tests/report.html
+        if: always()  # Upload even if tests fail
