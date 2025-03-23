@@ -29,6 +29,7 @@ public class WebSiteTest {
     private WebDriver driver;
     private static final String BASE_URL = "http://lcontrol-test-site.s3-website.eu-north-1.amazonaws.com";
     private static final String SCREENSHOT_DIR = "screenshots";
+    private String fileName;
 
     /**
      * Sets up the Chrome WebDriver with headless mode and creates the screenshot directory if it doesn't exist.
@@ -94,12 +95,13 @@ public class WebSiteTest {
      * @throws Exception if the screenshot capture or file saving operation fails
      */
     @Attachment(value = "Screenshot", type = "image/png")
-    void takeScreenshot(String fileName) throws Exception {
+    public byte[] takeScreenshot(String fileName) throws Exception {
         TakesScreenshot screenshot = (TakesScreenshot) driver;
         File srcFile = screenshot.getScreenshotAs(OutputType.FILE);
         Path destPath = Paths.get(SCREENSHOT_DIR, fileName);
         Files.copy(srcFile.toPath(), destPath, StandardCopyOption.REPLACE_EXISTING);
         System.out.println("Screenshot saved: " + destPath);
+        return screenshot.getScreenshotAs(OutputType.BYTES);
     }
 
     @AfterEach
