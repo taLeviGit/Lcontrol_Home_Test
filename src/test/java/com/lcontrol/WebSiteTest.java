@@ -30,12 +30,14 @@ public class WebSiteTest {
     private static final String BASE_URL = "http://lcontrol-test-site.s3-website.eu-north-1.amazonaws.com";
     private static final String SCREENSHOT_DIR = "screenshots";
 
+    /**
+     * Sets up the Chrome WebDriver with headless mode and creates the screenshot directory if it doesn't exist.
+     */
     @BeforeEach
     public void setUp() {
         WebDriverManager.chromedriver().setup();
         ChromeOptions options = new ChromeOptions();
-        // Headless Mode For CI/CD
-        options.addArguments("--headless=new"); // Headless mode
+        options.addArguments("--headless=new"); // Headless Mode For CI/CD
         options.addArguments("--no-sandbox");   // Linux CI
         options.addArguments("--disable-dev-shm-usage"); // Prevent memory issues in CI
         driver = new ChromeDriver(options);
@@ -43,6 +45,8 @@ public class WebSiteTest {
         File dir = new File(SCREENSHOT_DIR);
         if (!dir.exists()) {
             dir.mkdirs();
+        }else{
+            System.out.println("SCREENSHOT_DIR Already Exist");
         }
     }
 
@@ -83,6 +87,12 @@ public class WebSiteTest {
         System.out.println("Form submission completed");
     }
 
+    /**
+     * Captures a screenshot from the browser and saves it as a PNG file.
+     *
+     * @param fileName the name of the file to save the screenshot (e.g., "test1.png")
+     * @throws Exception if the screenshot capture or file saving operation fails
+     */
     @Attachment(value = "Screenshot", type = "image/png")
     void takeScreenshot(String fileName) throws Exception {
         TakesScreenshot screenshot = (TakesScreenshot) driver;
